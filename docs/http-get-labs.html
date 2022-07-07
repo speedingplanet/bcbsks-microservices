@@ -1,0 +1,148 @@
+<h1 id="http-get-labs">HTTP GET Labs</h1>
+<p>A series of labs working with HTTP’s GET method</p>
+<h2 id="part-1-building-a-controller">Part 1: Building a controller</h2>
+<p>Making a basic URL available. Also setting up a class that we will
+modify over the next several labs.</p>
+<p>Create a Java class in the <code>main</code> folder, under
+<code>microservices.labs</code> called <code>MemberController</code>.
+Remember to annotate it with the correct annotation
+<code>RestController</code>.</p>
+<p>In <code>MemberController</code>, create a function, using the right
+annotations, that:</p>
+<ul>
+<li>Answers on the URL <code>/members/status</code></li>
+<li>Returns a String</li>
+<li>The message can be simple “All members available” or something like
+that.</li>
+</ul>
+<p>Start up your server, either from the command line or via Spring Tool
+Suite. Navigate to <strong>http://localhost:8080/members/status</strong>
+to see if the mapping worked.</p>
+<h2 id="part-2-testing-a-controller">Part 2: Testing a controller</h2>
+<p>Automatically testing the URL we set up in the last lab.</p>
+<p>Create a Java class in the <code>test</code> folder, under
+<code>microservices.labs</code> called
+<code>MemberControllerTest</code>. Add code for the following:</p>
+<ul>
+<li>The class should use <code>@SpringBootTest</code></li>
+<li>Set up a random port for the server to run on</li>
+<li>Include a <code>TestRestTemplate</code></li>
+<li>Write a test to check that <code>MemberController</code> returns the
+expected default message.</li>
+</ul>
+<p>Run your test to see if it works!</p>
+<h2 id="part-3-a-real-object">Part 3: A real object!</h2>
+<p>Let’s integrate a real object into our microservice.</p>
+<p>Create a class, <code>Member</code>. It should have the following
+properties:</p>
+<ul>
+<li><code>id</code>: long</li>
+<li><code>firstName</code>: String</li>
+<li><code>lastName</code>: String</li>
+<li><code>policyHolder</code>: boolean</li>
+</ul>
+<p>Methods:</p>
+<ul>
+<li>Constructor signature:
+<code>Member(int, String, String, boolean)</code></li>
+<li>There should be public getters for each of the properties</li>
+<li>You can generate <code>equals</code> and <code>hashCode</code>
+methods</li>
+</ul>
+<p>In <code>MemberController</code>, add a mapping for
+<code>/members</code>. It should create a Member and return it as JSON.
+The Member values can be hard-coded at the moment.</p>
+<p>Start your microservice and navigate to
+<strong>http://localhost:8080/members</strong> to see if it works!</p>
+<h2 id="part-4-testing-a-real-object">Part 4: Testing a real object</h2>
+<p>Wherein we add testing for the object mapping we just set up.</p>
+<p>Back in <code>MemberControllerTest</code>, add a test which requests
+<code>/members</code> and checks to see if the appropriate object is
+returned.</p>
+<p>Run your test(s) and see if they pass.</p>
+<h2 id="part-5-working-with-lists">Part 5: Working with lists</h2>
+<p>We are on our way to implementing typical microservice endpoints! In
+this lab, we will implement retrieving a list of values</p>
+<h3 id="in-membercontroller">In <code>MemberController</code></h3>
+<ul>
+<li>Create an initializer function that defines a list or array of
+Members</li>
+<li>It’s fine to hard-code them for now</li>
+<li>Add a mapping for <code>/members</code> which returns the list/array
+of Members</li>
+<li>Check the URL in a browser or Postman to see if it works</li>
+</ul>
+<h3 id="in-membercontrollertest">In
+<code>MemberControllerTest</code></h3>
+<ul>
+<li>Create a test to validate that the <code>/members</code> URL returns
+an <em>array</em> of the appropriate size</li>
+<li>Create a second test to validate that the <code>/members</code> URL
+returns a <code>List&lt;Member&gt;</code> of the appropriate size</li>
+<li>Devise a test that will check that the returned value contains
+expected results</li>
+<li>How would you test to ensure that there were a certain number of
+Members whose <code>policyHolder</code> property was true?</li>
+</ul>
+<h2 id="part-6-working-with-query-parameters">Part 6: Working with Query
+Parameters</h2>
+<p>Adding search capabilities to our microservice</p>
+<h3 id="in-membercontroller-1">In <code>MemberController</code></h3>
+<p>First, we will concentrate on searching on the lastName field:</p>
+<ul>
+<li>For the mapping <code>/members</code>, update the handling method to
+take a single query parameter <code>lastName</code>
+<ul>
+<li>The parameter should be optional</li>
+</ul></li>
+<li>Using the value in <code>lastName</code>, return a list/array of
+only the matching Members</li>
+<li>Think about what happens if there are no matching Members</li>
+</ul>
+<h3 id="in-membercontrollertest-1">In
+<code>MemberControllerTest</code></h3>
+<ul>
+<li>Create a test to validate the search on lastName returns the
+appropriate values</li>
+</ul>
+<h3 id="back-in-membercontroller">Back in
+<code>MemberController</code></h3>
+<ul>
+<li>How can we grab <strong>all</strong> the query parameters passed to
+<code>/members</code>?</li>
+<li>What would we do to update the code that returns the results?</li>
+</ul>
+<h3 id="back-in-membercontrollertest">Back in
+<code>MemberControllerTest</code></h3>
+<ul>
+<li>The previous test should still work!</li>
+<li>Add a test for searching on first name, standalone</li>
+<li>Add a test for searching on two or more parameters (first name &amp;
+lastName or last name &amp; policy holder, as examples)</li>
+</ul>
+<h2 id="part-7-working-with-url-parameters">Part 7: Working with URL
+parameters</h2>
+<p>We can get a list of Members, what about fetching an individual
+member?</p>
+<h3 id="in-membercontroller-2">In <code>MemberController</code></h3>
+<ul>
+<li>Add a mapping so that <code>/members/5</code> will return the member
+with the id 5</li>
+<li>What happens when the mapping doesn’t have a corresponding Member?
+<ul>
+<li>We’ll deal with this in the next exercise</li>
+</ul></li>
+<li>Check the URL in a browser or Postman to see if it works</li>
+</ul>
+<h3 id="in-membercontrollertest-2">In
+<code>MemberControllerTest</code></h3>
+<ul>
+<li>Create a test to validate that <code>/members/5</code> returns an
+expected <code>Member</code>.</li>
+<li>Create another test to validate what happens when requesting an
+invalid member number
+<ul>
+<li>We will update this to be better in the next exercise</li>
+</ul></li>
+</ul>
+<h2 id="part-8-exception-handling">Part 8: Exception handling</h2>

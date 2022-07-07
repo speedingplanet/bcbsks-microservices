@@ -25,5 +25,15 @@ class MemberControllerTest {
 //		assertEquals("All members available", response);
 		assertThat(response).contains("members");
 	}
+	
+	@Test
+	void testGetMembers() throws Exception {
+		String testUrl = String.format("http://localhost:%d/members", port);
+		Member testMember = client.getForObject(testUrl, Member.class);
+		assertThat(testMember.getFirstName()).isEqualTo("John");
+		assertEquals(testMember, new Member(1, "John", "Paxton", true));
+		assertThat(testMember).isEqualTo(new Member(1, "John", "Paxton", true));
+		
+	}
 
 }

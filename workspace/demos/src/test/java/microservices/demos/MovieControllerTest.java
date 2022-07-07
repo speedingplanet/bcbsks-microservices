@@ -1,5 +1,6 @@
 package microservices.demos;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
@@ -51,6 +52,13 @@ class MovieControllerTest {
 				});
 		List<Movie> moviesList = moviesListResponse.getBody();
 		assertEquals(5, moviesList.size());
+	}
+
+	@Test
+	void testGetMoviesWithParams() {
+		String url = String.format(urlTemplate, port, "movies?year=2022");
+		Movie[] testMovies = client.getForObject(url, Movie[].class);
+		assertThat(testMovies.length == 1);
 	}
 
 	@Test

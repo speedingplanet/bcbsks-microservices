@@ -115,25 +115,36 @@ First, we will concentrate on searching on the lastName field:
 - Add a test for searching on two or more parameters
   (first name & lastName or last name & policy holder, as examples)
 
+## Part 7: Setting up the database
+
+Since we're unlikely to work with hardcoded data in the real world, let's set up a database.
+
+## Part 8: Plugging into the database
+
+Updating `MemberController` so that it talks to the database, instead of hardcoded data
+
+## Part 9: Finishing the queries
+
+Completing the set of queries we need, specifically:
+
+- GET /members (with optional search params)
+- GET /members/{id} (with 404 handling)
+
+We will update tests as well.
+
+## Part 10: Adding data
+
+Adding members via POST. How should we test this?
+
 ### Challenge
 
 Per Clint's question Thursday morning, can we create an endpoint: "/searchMembers" that uses POST to send search criteria?
 
-## Part 7: Working with URL parameters
+## Part 11: Modifying data
 
-We can get a list of Members, what about fetching an individual member?
+Adding responders for:
 
-### In `MemberController`
+- PUT /members/{id}
+- PATCH /members/{id}
 
-- Add a mapping so that `/members/5` will return the member with the id 5
-- What happens when the mapping doesn't have a corresponding Member?
-  - We'll deal with this in the next exercise
-- Check the URL in a browser or Postman to see if it works
-
-### In `MemberControllerTest`
-
-- Create a test to validate that `/members/5` returns an expected `Member`.
-- Create another test to validate what happens when requesting an invalid member number
-  - We will update this to be better in the next exercise
-
-## Part 8: Exception handling
+And writing code that sticks to HTTP semantics. Don't forget tests, either!

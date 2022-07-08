@@ -120,29 +120,31 @@ appropriate values</li>
 <li>Add a test for searching on two or more parameters (first name &amp;
 lastName or last name &amp; policy holder, as examples)</li>
 </ul>
-<h2 id="part-7-working-with-url-parameters">Part 7: Working with URL
-parameters</h2>
-<p>We can get a list of Members, what about fetching an individual
-member?</p>
-<h3 id="in-membercontroller-2">In <code>MemberController</code></h3>
+<h2 id="part-7-setting-up-the-database">Part 7: Setting up the
+database</h2>
+<p>Since we’re unlikely to work with hardcoded data in the real world,
+let’s set up a database.</p>
+<h2 id="part-8-plugging-into-the-database">Part 8: Plugging into the
+database</h2>
+<p>Updating <code>MemberController</code> so that it talks to the
+database, instead of hardcoded data</p>
+<h2 id="part-9-finishing-the-queries">Part 9: Finishing the queries</h2>
+<p>Completing the set of queries we need, specifically:</p>
 <ul>
-<li>Add a mapping so that <code>/members/5</code> will return the member
-with the id 5</li>
-<li>What happens when the mapping doesn’t have a corresponding Member?
-<ul>
-<li>We’ll deal with this in the next exercise</li>
-</ul></li>
-<li>Check the URL in a browser or Postman to see if it works</li>
+<li>GET /members (with optional search params)</li>
+<li>GET /members/{id} (with 404 handling)</li>
 </ul>
-<h3 id="in-membercontrollertest-2">In
-<code>MemberControllerTest</code></h3>
+<p>We will update tests as well.</p>
+<h2 id="part-10-adding-data">Part 10: Adding data</h2>
+<p>Adding members via POST. How should we test this?</p>
+<h3 id="challenge">Challenge</h3>
+<p>Per Clint’s question Thursday morning, can we create an endpoint:
+“/searchMembers” that uses POST to send search criteria?</p>
+<h2 id="part-11-modifying-data">Part 11: Modifying data</h2>
+<p>Adding responders for:</p>
 <ul>
-<li>Create a test to validate that <code>/members/5</code> returns an
-expected <code>Member</code>.</li>
-<li>Create another test to validate what happens when requesting an
-invalid member number
-<ul>
-<li>We will update this to be better in the next exercise</li>
-</ul></li>
+<li>PUT /members/{id}</li>
+<li>PATCH /members/{id}</li>
 </ul>
-<h2 id="part-8-exception-handling">Part 8: Exception handling</h2>
+<p>And writing code that sticks to HTTP semantics. Don’t forget tests,
+either!</p>

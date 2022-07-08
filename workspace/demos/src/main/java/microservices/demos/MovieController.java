@@ -8,25 +8,24 @@ import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import microservices.demos.persist.MoviesRepository;
+
 @RestController
 public class MovieController {
 
+	@Autowired
+	MoviesRepository repo;
+	
 	private Movie[] movies;
 
-//	@PostConstruct
-//	private void initializeMovies() {
-
-	public MovieController() {
-		movies = new Movie[5];
-		movies[0] = new Movie(1, "Raiders of the Lost Ark", 1981, 5);
-		movies[1] = new Movie(2, "WarGames", 1983, 4);
-		movies[2] = new Movie(3, "Thor: Love and Thunder", 2022, 4);
-		movies[3] = new Movie(4, "Star Wars", 1977, 4);
-		movies[4] = new Movie(5, "2001", 1968, 4);
+	@PostConstruct
+	public void init() {
+		movies = repo.findAll().toArray(new Movie[0]);
 	}
 
 	@GetMapping("/movies/welcome")

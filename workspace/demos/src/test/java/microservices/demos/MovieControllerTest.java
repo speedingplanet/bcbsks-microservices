@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,6 +30,7 @@ class MovieControllerTest {
 	String urlTemplate = "http://localhost:%d/%s";
 
 	@Test
+	@Disabled
 	void testGetMovie() {
 		String url = String.format("http://localhost:%d/movies/one-movie", port);
 		Movie testMovie = client.getForObject(url, Movie.class);
@@ -37,6 +39,7 @@ class MovieControllerTest {
 	}
 
 	@Test
+	@Disabled
 	void testGetMovies() {
 		String url = String.format(urlTemplate, port, "movies");
 		Movie[] testMovies = client.getForObject(url, Movie[].class);
@@ -45,6 +48,7 @@ class MovieControllerTest {
 	}
 
 	@Test
+	@Disabled
 	void testGetMoviesAsList() {
 		String url = String.format(urlTemplate, port, "movies/as-list");
 		ResponseEntity<List<Movie>> moviesListResponse = client.exchange(url, HttpMethod.GET, null,
@@ -55,6 +59,7 @@ class MovieControllerTest {
 	}
 
 	@Test
+	@Disabled
 	void testGetMoviesWithParams() {
 		String url = String.format(urlTemplate, port, "movies?year=2022");
 		Movie[] testMovies = client.getForObject(url, Movie[].class);
@@ -62,6 +67,7 @@ class MovieControllerTest {
 	}
 
 	@Test
+	@Disabled
 	void testGetMoviesAsListEasier() {
 		String url = String.format(urlTemplate, port, "movies");
 		Movie[] testMovies = client.getForObject(url, Movie[].class);
@@ -74,6 +80,7 @@ class MovieControllerTest {
 	}
 
 	@Test
+	@Disabled
 	void testGetMoviesAsSet() {
 		String url = String.format(urlTemplate, port, "movies/as-list");
 		ResponseEntity<Set<Movie>> moviesListResponse = client.exchange(url, HttpMethod.GET, null,

@@ -9,6 +9,9 @@ import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,51 +24,51 @@ public class MovieController {
 	@Autowired
 	MoviesRepository repo;
 	
-	private Movie[] movies;
-
 	@PostConstruct
 	public void init() {
-		repo.save(new Movie(7, "The Dark Knight", 2008, 5));
-		movies = repo.findAll().toArray(new Movie[0]);
+		repo.save(new Movie("The Dark Knight", 2008, 5));
 	}
 
 	@GetMapping("/movies/welcome")
 	public String welcome() {
 		return "Welcome to our favorite movies!";
 	}
-
-	@GetMapping("/movies/one-movie")
-	public Movie getMovie() {
-		return new Movie(1, "Test Movie", 2022, 4);
-	}
 	
-	@GetMapping("/movies/all-params")
-	public Map<String, String> getAllParameters(@RequestParam Map<String, String> params) {
-		return params;
-	}
-
 	@GetMapping("/movies")
-	public List<Movie> getMovies(@RequestParam(name = "year", required = false) Integer year) {
-		List<Movie> filteredMovies = new ArrayList<>();
-		if (year == null) {
-			return Arrays.asList(movies);
-		}
-		for (Movie m: movies) {
-			if(m.getYear() == year) filteredMovies.add(m);
+	public List<Movie> getMovies(@RequestParam Map<String, String> params) {
+		
+		List<String> ignorePaths = new ArrayList<>();
+		ignorePaths.add("id");
+		
+		Movie criteriaMovie = new Movie();
+
+		if (! params.containsKey("title")) {
+			ignorePaths.add("title");
+		} else {
+			criteriaMovie.setTitle(params.get("title"));
 		}
 		
-		return filteredMovies;
-		/*
-		return Arrays.stream(movies)
-				.filter(movie -> movie.getYear() == year)
-//				.toArray(Movie[]::new);
-				.toArray(Collectors.toList());
-				*/
-	}
-
-	@GetMapping("/movies/as-list")
-	public List<Movie> getMoviesAsList() {
-		return Arrays.stream(movies).collect(Collectors.toList());
+		if (! params.containsKey("year")) {
+			ignorePaths.add("year");
+		} else {
+			criteriaMovie.setYear(Integer.parseInt(params.get("year")));
+		}
+		
+		if (! params.containsKey("rating")) {
+			ignorePaths.add("rating");
+		} else {
+			criteriaMovie.setRating(Integer.parseInt(params.get("rating")));
+		}
+		
+		ExampleMatcher matcher = ExampleMatcher.matching()
+				.withIgnoreCase()
+				.withStringMatcher(StringMatcher.CONTAINING)
+				.withIgnorePaths(ignorePaths.toArray(new String[0]));
+		
+		
+		Example<Movie> exampleQuery = Example.of(criteriaMovie, matcher);
+		
+		return repo.findAll(exampleQuery);
 	}
 
 }

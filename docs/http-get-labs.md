@@ -115,6 +115,10 @@ First, we will concentrate on searching on the lastName field:
 - Add a test for searching on two or more parameters
   (first name & lastName or last name & policy holder, as examples)
 
+### Challenge
+
+Per Clint's question Thursday morning, can we create an endpoint: "/searchMembers" that uses POST to send search criteria?
+
 ## Part 7: Working with URL parameters
 
 We can get a list of Members, what about fetching an individual member?

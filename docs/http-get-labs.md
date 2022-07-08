@@ -119,6 +119,17 @@ First, we will concentrate on searching on the lastName field:
 
 Since we're unlikely to work with hardcoded data in the real world, let's set up a database.
 
+- Create a Repository that extends CrudRepository
+  - Add a findAll that returns the appropriate type `List<YourType>`
+- Update your Member, turning it into a JPA Entity
+  - Include which field is a primary key with `@Id`
+  - Make sure there's a no-arg constructor
+- Update your controller to access your Repository
+  - Constructor?
+  - `@PostConstruct`?
+- Retrieve the data from the table and convert it to `Member[]` so the rest of the
+  Controller methods can use it.
+
 ## Part 8: Plugging into the database
 
 Updating `MemberController` so that it talks to the database, instead of hardcoded data

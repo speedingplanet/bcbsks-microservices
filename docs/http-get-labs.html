@@ -124,6 +124,26 @@ lastName or last name &amp; policy holder, as examples)</li>
 database</h2>
 <p>Since we’re unlikely to work with hardcoded data in the real world,
 let’s set up a database.</p>
+<ul>
+<li>Create a Repository that extends CrudRepository
+<ul>
+<li>Add a findAll that returns the appropriate type
+<code>List&lt;YourType&gt;</code></li>
+</ul></li>
+<li>Update your Member, turning it into a JPA Entity
+<ul>
+<li>Include which field is a primary key with <code>@Id</code></li>
+<li>Make sure there’s a no-arg constructor</li>
+</ul></li>
+<li>Update your controller to access your Repository
+<ul>
+<li>Constructor?</li>
+<li><code>@PostConstruct</code>?</li>
+</ul></li>
+<li>Retrieve the data from the table and convert it to
+<code>Member[]</code> so the rest of the Controller methods can use
+it.</li>
+</ul>
 <h2 id="part-8-plugging-into-the-database">Part 8: Plugging into the
 database</h2>
 <p>Updating <code>MemberController</code> so that it talks to the

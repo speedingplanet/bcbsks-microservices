@@ -2,15 +2,32 @@ package microservices.solutions;
 
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "members")
 public class Member {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String firstName;
 	private String lastName;
 	private boolean policyHolder;
+	
+	protected Member() {}
 
 	public Member(long id, String firstName, String lastName, boolean policyHolder) {
-		super();
+		this(firstName, lastName, policyHolder);
 		this.id = id;
+	}
+	
+	public Member(String firstName, String lastName, boolean policyHolder) {
+		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.policyHolder = policyHolder;

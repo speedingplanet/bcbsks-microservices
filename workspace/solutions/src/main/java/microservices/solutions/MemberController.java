@@ -6,22 +6,32 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import microservices.solutions.persist.MemberRepository;
 
 @RestController
 public class MemberController {
 
 	private List<Member> members;
+	
+	@Autowired
+	private MemberRepository repo;
 
-	public MemberController() {
-		members = new ArrayList<>();
-		members.add(new Member(1, "John", "Paxton", true));
-		members.add(new Member(2, "Amir", "Shami", true));
-		members.add(new Member(3, "Clint", "Brubakken", true));
-		members.add(new Member(4, "Joshua", "Wurtz", false));
-		members.add(new Member(5, "Kelsi", "Henderson", false));
+	@PostConstruct
+	public void startup() {
+		repo.save(new Member("John", "Paxton", true));
+		repo.save(new Member("Amir", "Shami", true));
+		repo.save(new Member("Clint", "Brubakken", true));
+		repo.save(new Member("Joshua", "Wurtz", false));
+		repo.save(new Member("Kelsi", "Henderson", false));
+		
+		members = repo.findAll();
 	}
 
 	@GetMapping("/members/status")

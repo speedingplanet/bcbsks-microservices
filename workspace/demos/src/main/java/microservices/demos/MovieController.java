@@ -25,6 +25,7 @@ public class MovieController {
 
 	@PostConstruct
 	public void init() {
+		repo.save(new Movie(7, "The Dark Knight", 2008, 5));
 		movies = repo.findAll().toArray(new Movie[0]);
 	}
 

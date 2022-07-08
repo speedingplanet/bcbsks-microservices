@@ -2,11 +2,29 @@ package microservices.demos;
 
 import java.util.Objects;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "movies")
 public class Movie {
+
+	@Id
+	@SequenceGenerator(initialValue = 10, allocationSize = 1, name="movieId")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movieId")
 	private long id;
 	private String title;
+
+	@Column(name = "releaseYear")
 	private int year;
 	private int rating;
+	
+	protected Movie() {}
 
 	public Movie(long id, String title, int year, int rating) {
 		super();
@@ -31,7 +49,7 @@ public class Movie {
 	public int getRating() {
 		return rating;
 	}
-	
+
 	public String toString() {
 		return String.format("%s (%d)", title, year);
 	}
@@ -52,6 +70,5 @@ public class Movie {
 		Movie other = (Movie) obj;
 		return rating == other.rating && Objects.equals(title, other.title) && year == other.year;
 	}
-	
-	
+
 }
